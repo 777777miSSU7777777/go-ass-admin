@@ -31,7 +31,7 @@ export class ArtistController {
   @Post()
   async newArtists(@Body() body: Artist[], @Res() res: Response) {
     try {
-      const newArtists = await this.artistService.newArtists(body);
+      const newArtists: Artist[] = await this.artistService.newArtists(body);
 
       res.status
 
@@ -54,7 +54,7 @@ export class ArtistController {
   @Put()
   async updateArtists(@Body() body: Artist[], @Res() res: Response) {
     try {
-      const updatedArtists = await this.artistService.updateArtists(body);
+      const updatedArtists: Artist[] = await this.artistService.updateArtists(body);
 
       res.status(HttpStatus.OK).json({
         'ok': true,
@@ -75,7 +75,7 @@ export class ArtistController {
   @Delete()
   async deleteArtist(@Body() body: Artist[], @Res() res: Response) {
     try {
-      const deletedRowsCount = await this.artistService.deleteArtists(body);
+      const deletedRowsCount: number[] = await this.artistService.deleteArtists(body);
       
       res.status(HttpStatus.OK).json({
         'ok': true,

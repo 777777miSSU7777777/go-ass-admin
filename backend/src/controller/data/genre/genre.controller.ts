@@ -10,7 +10,7 @@ export class GenreController {
   @Get()
   async getGenres(@Res() res: Response) {
     try {
-      const genres = this.genreService.getGenres();
+      const genres: Genre[] = await this.genreService.getGenres();
 
       res.status(HttpStatus.OK).json({
         'ok': true,
@@ -31,7 +31,7 @@ export class GenreController {
   @Post()
   async newGenres(@Body() body: Genre[], @Res() res: Response) {
     try {
-      const newGenres = this.genreService.newGenres(body);
+      const newGenres: Genre[] = await this.genreService.newGenres(body);
 
       res.status(HttpStatus.OK).json({
         'ok': true,
@@ -52,7 +52,7 @@ export class GenreController {
   @Put()
   async updateGenres(@Body() body: Genre[], @Res() res: Response) {
     try {
-      const updatedGenres = this.genreService.updateGenres(body);
+      const updatedGenres: Genre[] = await this.genreService.updateGenres(body);
 
       res.status(HttpStatus.OK).json({
         'ok': true,
@@ -73,7 +73,7 @@ export class GenreController {
   @Delete()
   async deleteGenres(@Body() body: Genre[], @Res() res: Response) {
     try {
-      const deletedRowsCount = await this.genreService.deleteGenres(body);
+      const deletedRowsCount: number[] = await this.genreService.deleteGenres(body);
 
       res.status(HttpStatus.OK).json({
         'ok': true,
