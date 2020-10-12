@@ -75,11 +75,11 @@ export class ArtistController {
   @Delete()
   async deleteArtist(@Body() body: Artist[], @Res() res: Response) {
     try {
-      const deletedRows = await this.artistService.deleteArtists(body);
+      const deletedRowsCount = await this.artistService.deleteArtists(body);
       
       res.status(HttpStatus.OK).json({
         'ok': true,
-        'data': `Rows affected: ${deletedRows.reduce((acc: number = 0, cur: number) => acc + cur)}`,
+        'data': `Rows affected count: ${deletedRowsCount.reduce((acc: number = 0, cur: number) => acc + cur)}`,
         'error': null,
       });
     } catch (e) {
