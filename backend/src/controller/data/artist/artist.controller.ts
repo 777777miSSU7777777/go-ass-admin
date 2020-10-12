@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req } from '@nestjs/common';
 import { ArtistService } from '@service';
 import { Artist } from '@model';
 
@@ -9,6 +9,11 @@ export class ArtistController {
   @Get('/artist')
   async getTracks(): Promise<Artist[]> {
     return await this.artistService.getArtists();
+  }
+
+  @Post('/artist')
+  async newTracks(@Body() body: Artist[]): Promise<Artist[]> {
+    return await this.artistService.newArtists(body);
   }
 }
 
