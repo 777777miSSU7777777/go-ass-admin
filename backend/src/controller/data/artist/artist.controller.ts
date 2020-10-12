@@ -79,7 +79,7 @@ export class ArtistController {
       
       res.status(HttpStatus.OK).json({
         'ok': true,
-        'data': `Rows affected count: ${deletedRowsCount.reduce((acc: number = 0, cur: number) => acc + cur)}`,
+        'data': `Affected rows count: ${deletedRowsCount.reduce((acc: number = 0, cur: number) => acc + cur)}`,
         'error': null,
       });
     } catch (e) {
