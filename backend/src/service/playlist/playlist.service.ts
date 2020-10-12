@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Playlist } from "@model";
+import * as uuid from 'uuid';
 
 @Injectable()
 export class PlaylistService {
@@ -7,6 +8,14 @@ export class PlaylistService {
     return await Playlist.query().select();
   }
   
+  async newPlaylists(playlists: Playlist[]): Promise<Playlist[]> {
+    return await Playlist.query().insertAndFetch(playlists.map((playlist: Playlist) => {
+      return {
+        ...playlist,
+        playlistId: playlist.playlistId || uuid.v4(),
+      };
+    }));
+  }
 }
 
 export default PlaylistService;

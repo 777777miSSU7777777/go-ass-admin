@@ -6,7 +6,10 @@ export class GenreTracksService {
   async getGenreTracks(): Promise<GenreTracks[]> {
     return await GenreTracks.query().select();
   }
-  
+
+  async newGenreTracks(genreTracks: GenreTracks[]): Promise<GenreTracks[]> {
+    return await GenreTracks.query().insertAndFetch(genreTracks);
+  }
 }
 
 export default GenreTracksService;

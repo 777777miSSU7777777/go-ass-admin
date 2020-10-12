@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { UserTokensService } from '@service';
 import { UserTokens } from '@model';
 
@@ -9,6 +9,11 @@ export class UserTokensController {
   @Get('/user-tokens')
   async getUserTokens(): Promise<UserTokens[]> {
     return await this.userTokensService.getUserTokens();
+  }
+
+  @Post('/user-tokens')
+  async newUserTokens(@Body() body: UserTokens[]): Promise<UserTokens[]> {
+    return await this.userTokensService.newUserTokens(body);
   }
 }
 
