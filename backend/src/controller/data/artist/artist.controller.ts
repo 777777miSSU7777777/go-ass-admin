@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Req } from '@nestjs/common';
 import { ArtistService } from '@service';
 import { Artist } from '@model';
 
@@ -7,13 +7,18 @@ export class ArtistController {
   constructor(private readonly artistService: ArtistService) {}
 
   @Get('/artist')
-  async getTracks(): Promise<Artist[]> {
+  async getArtists(): Promise<Artist[]> {
     return await this.artistService.getArtists();
   }
 
   @Post('/artist')
-  async newTracks(@Body() body: Artist[]): Promise<Artist[]> {
+  async newArtists(@Body() body: Artist[]): Promise<Artist[]> {
     return await this.artistService.newArtists(body);
+  }
+
+  @Put('/artist')
+  async updateArtists(@Body() body: Artist[]): Promise<Artist[]> {
+    return await this.artistService.updateArtists(body);
   }
 }
 

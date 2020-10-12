@@ -10,6 +10,12 @@ export class UserTokensService {
   async newUserTokens(userTokens: UserTokens[]): Promise<UserTokens[]> {
     return await UserTokens.query().insertAndFetch(userTokens);
   }  
+
+  async updateUserTokens(userTokens: UserTokens[]): Promise<UserTokens[]> {
+    return Promise.all(userTokens.map((userToken: UserTokens) => {
+      return UserTokens.query().updateAndFetchById(userToken.userId, userToken);
+    }));
+  }
 }
 
 export default UserTokensService;

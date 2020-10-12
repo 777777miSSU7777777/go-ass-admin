@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { PlaylistService } from '@service';
 import { Playlist } from '@model';
 
@@ -14,6 +14,11 @@ export class PlaylistController {
   @Post('/playlist')
   async newPlaylists(@Body() body: Playlist[]): Promise<Playlist[]> {
     return await this.playlistService.newPlaylists(body);
+  }
+
+  @Put('/playlists')
+  async updatePlaylists(@Body() body: Playlist[]): Promise<Playlist[]> {
+    return await this.playlistService.updatePlaylists(body);
   }
 }
 

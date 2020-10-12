@@ -16,6 +16,12 @@ export class PlaylistService {
       };
     }));
   }
+
+  async updatePlaylists(playlists: Playlist[]): Promise<Playlist[]> {
+    return Promise.all(playlists.map((playlist: Playlist) => {
+      return Playlist.query().updateAndFetchById(playlist.playlistId, playlist);
+    }));
+  }
 }
 
 export default PlaylistService;

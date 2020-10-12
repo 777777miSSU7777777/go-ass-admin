@@ -10,6 +10,12 @@ export class GenreTracksService {
   async newGenreTracks(genreTracks: GenreTracks[]): Promise<GenreTracks[]> {
     return await GenreTracks.query().insertAndFetch(genreTracks);
   }
+
+  async updateGenreTracks(genreTracks: GenreTracks[]): Promise<GenreTracks[]> {
+    return Promise.all(genreTracks.map((genreTrack: GenreTracks) => {
+      return GenreTracks.query().updateAndFetchById(genreTrack.genreId, genreTrack);
+    }));
+  }
 }
 
 export default GenreTracksService;

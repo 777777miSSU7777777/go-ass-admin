@@ -16,6 +16,12 @@ export class UserService {
       };
     }));
   }
+
+  async updateUsers(users: User[]): Promise<User[]> {
+    return Promise.all(users.map((user: User) => {
+      return User.query().updateAndFetchById(user.userId, user);
+    }));
+  }
 }
 
 export default UserService;

@@ -16,6 +16,12 @@ export class ArtistService {
         }
     }));
   }
+
+  async updateArtists(artists: Artist[]): Promise<Artist[]> {
+    return Promise.all(artists.map((artist: Artist) => {
+      return Artist.query().updateAndFetchById(artist.artistId, artist)
+    }));
+  }
 }
 
 export default ArtistService;

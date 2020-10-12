@@ -16,6 +16,12 @@ export class TrackService {
       };
     }));
   }  
+
+  async updateTracks(tracks: Track[]): Promise<Track[]> {
+    return Promise.all(tracks.map((track: Track) => {
+      return Track.query().updateAndFetchById(track.trackId, track);
+    }));
+  }
 }
 
 export default TrackService;

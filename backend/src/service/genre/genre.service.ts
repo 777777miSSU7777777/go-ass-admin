@@ -16,6 +16,12 @@ export class GenreService {
       };
     }));
   }
+
+  async updateGenres(genres: Genre[]): Promise<Genre[]> {
+    return Promise.all(genres.map((genre: Genre) => {
+      return Genre.query().updateAndFetchById(genre.genreId, genre);
+    }));
+  }
   
 }
 

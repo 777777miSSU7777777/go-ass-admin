@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { GenreTracksService } from '@service';
 import { GenreTracks } from '@model';
 
@@ -14,6 +14,11 @@ export class GenreTracksController {
   @Post('/genre-tracks')
   async newGenreTracks(@Body() body: GenreTracks[]): Promise<GenreTracks[]> {
     return await this.genreTracksService.newGenreTracks(body);
+  }
+
+  @Put('/genre-tracks')
+  async updateGenreTracks(@Body() body: GenreTracks[]): Promise<GenreTracks[]> {
+    return await this.genreTracksService.updateGenreTracks(body);
   }
 }
 

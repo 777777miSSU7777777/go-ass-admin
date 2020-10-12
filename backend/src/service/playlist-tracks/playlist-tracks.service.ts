@@ -7,10 +7,15 @@ export class PlaylistTracksService {
     return await PlaylistTracks.query().select();
   }
 
-  async newPlaylistTrack(playlistTracks: PlaylistTracks[]): Promise<PlaylistTracks[]> {
+  async newPlaylistTracks(playlistTracks: PlaylistTracks[]): Promise<PlaylistTracks[]> {
     return await PlaylistTracks.query().insertAndFetch(playlistTracks);
   }
   
+  async updatePlaylistTracks(playlistTracks: PlaylistTracks[]): Promise<PlaylistTracks[]> {
+    return Promise.all(playlistTracks.map((playlistTrack: PlaylistTracks) => {
+      return PlaylistTracks.query().updateAndFetchById(playlistTrack.playlistId, playlistTrack);
+    }));
+  }
 }
 
 export default PlaylistTracksService;
