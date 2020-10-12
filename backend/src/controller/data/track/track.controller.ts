@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
 import { TrackService } from '@service';
 import { Track } from '@model';
 
@@ -19,6 +19,11 @@ export class TrackController {
   @Put('/track')
   async updateTracks(@Body() body: Track[]): Promise<Track[]> {
     return await this.trackService.updateTracks(body);
+  }
+
+  @Delete('/track')
+  async deleteTracks(@Body() body: Track[]): Promise<number[]> {
+    return await this.trackService.deleteTracks(body);
   }
 }
 

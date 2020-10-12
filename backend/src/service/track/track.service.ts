@@ -22,6 +22,12 @@ export class TrackService {
       return Track.query().updateAndFetchById(track.trackId, track);
     }));
   }
+
+  async deleteTracks(tracks: Track[]): Promise<number[]> {
+    return Promise.all(tracks.map((track: Track) => {
+      return Track.query().deleteById(track.trackId);
+    }))
+  }
 }
 
 export default TrackService;

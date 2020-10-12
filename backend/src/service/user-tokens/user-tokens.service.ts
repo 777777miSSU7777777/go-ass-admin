@@ -16,6 +16,12 @@ export class UserTokensService {
       return UserTokens.query().updateAndFetchById(userToken.userId, userToken);
     }));
   }
+
+  async deleteUserTokens(userTokens: UserTokens[]): Promise<number[]> {
+    return Promise.all(userTokens.map((userTokens: UserTokens) => {
+      return UserTokens.query().deleteById([userTokens.userId, userTokens.token]);
+    }))
+  }
 }
 
 export default UserTokensService;

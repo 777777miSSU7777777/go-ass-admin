@@ -22,6 +22,12 @@ export class ArtistService {
       return Artist.query().updateAndFetchById(artist.artistId, artist)
     }));
   }
+
+  async deleteArtists(artists: Artist[]): Promise<number[]> {
+    return Promise.all(artists.map((artist: Artist) => {
+      return Artist.query().deleteById(artist.artistId);
+    }))
+  }
 }
 
 export default ArtistService;

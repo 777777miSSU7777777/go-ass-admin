@@ -16,6 +16,12 @@ export class UserPlaylistsService {
       return UserPlaylists.query().updateAndFetchById(userPlaylist.userId, userPlaylist);
     }));
   }
+
+  async deleteUserPlaylists(userPlaylists: UserPlaylists[]): Promise<number[]> {
+    return Promise.all(userPlaylists.map((userPlaylist: UserPlaylists) => {
+      return UserPlaylists.query().deleteById([userPlaylist.playlistId, userPlaylist.playlistId]);
+    }))
+  }
 }
 
 export default UserPlaylistsService;

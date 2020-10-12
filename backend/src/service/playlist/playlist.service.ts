@@ -22,6 +22,12 @@ export class PlaylistService {
       return Playlist.query().updateAndFetchById(playlist.playlistId, playlist);
     }));
   }
+
+  async deletePlaylists(playlists: Playlist[]): Promise<number[]> {
+    return Promise.all(playlists.map((playlist: Playlist) => {
+      return Playlist.query().deleteById(playlist.playlistId);
+    }))
+  }
 }
 
 export default PlaylistService;

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Req } from '@nestjs/common';
 import { ArtistService } from '@service';
 import { Artist } from '@model';
 
@@ -19,6 +19,11 @@ export class ArtistController {
   @Put('/artist')
   async updateArtists(@Body() body: Artist[]): Promise<Artist[]> {
     return await this.artistService.updateArtists(body);
+  }
+
+  @Delete('/artist')
+  async deleteArtist(@Body() body: Artist[]): Promise<number[]> {
+    return await this.artistService.deleteArtists(body);
   }
 }
 

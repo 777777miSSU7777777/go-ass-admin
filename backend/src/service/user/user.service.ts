@@ -22,6 +22,12 @@ export class UserService {
       return User.query().updateAndFetchById(user.userId, user);
     }));
   }
+
+  async deleteUsers(users: User[]): Promise<number[]> {
+    return Promise.all(users.map((user: User) => {
+      return User.query().deleteById(user.userId);
+    }))
+  }
 }
 
 export default UserService;

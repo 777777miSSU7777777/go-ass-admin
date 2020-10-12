@@ -23,6 +23,11 @@ export class GenreService {
     }));
   }
   
+  async deleteGenres(genres: Genre[]): Promise<number[]> {
+    return Promise.all(genres.map((genre: Genre) => {
+      return Genre.query().deleteById(genre.genreId);
+    }))
+  }
 }
 
 export default GenreService;

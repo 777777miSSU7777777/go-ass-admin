@@ -16,6 +16,12 @@ export class GenreTracksService {
       return GenreTracks.query().updateAndFetchById(genreTrack.genreId, genreTrack);
     }));
   }
+
+  async deleteGenreTracks(genreTracks: GenreTracks[]): Promise<number[]> {
+    return Promise.all(genreTracks.map((genreTrack: GenreTracks) => {
+      return GenreTracks.query().deleteById([genreTrack.genreId, genreTrack.trackId]);
+    }))
+  }
 }
 
 export default GenreTracksService;
