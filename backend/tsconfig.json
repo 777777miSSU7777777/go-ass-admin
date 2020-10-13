@@ -14,8 +14,9 @@
     "paths": {
       "@app/*": ["./src/*"],
       "@model": ["./src/db/model"],
+      "@helper": ["./src/helper"],
       "@service": ["./src/service"],
-      // "@controller": ["./src/controller"],
+      "@middleware": ["./src/middleware"],
       "@controller/*": ["./src/controller/*"],
     }
   }
