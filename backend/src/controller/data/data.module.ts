@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import {
   ArtistModule,
   GenreModule,
@@ -11,7 +11,6 @@ import {
   UserTokensModule,
   UserTracksModule
 } from '@controller/data';
-import { JWTMiddleware } from '@middleware';
 
 @Module({
   imports: [
@@ -29,11 +28,4 @@ import { JWTMiddleware } from '@middleware';
   controllers: [],
   providers: [],
 })
-export class DataModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(JWTMiddleware)
-      .exclude('/auth/*')
-      .forRoutes('*');
-  }
-}
+export class DataModule {}
