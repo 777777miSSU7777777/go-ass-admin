@@ -17,7 +17,7 @@ export class UserTracksService {
     }));
   }
 
-  async deleteArtists(userTracks: UserTracks[]): Promise<number[]> {
+  async deleteUserTracks(userTracks: UserTracks[]): Promise<number[]> {
     return Promise.all(userTracks.map((userTrack: UserTracks) => {
       return UserTracks.query().deleteById([userTrack.userId, userTrack.trackId]);
     }))
