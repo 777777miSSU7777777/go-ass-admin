@@ -1,29 +1,94 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Post, Put, Res } from '@nestjs/common';
 import { UserTokensService } from '@service';
 import { UserTokens } from '@model';
+import { Response } from 'express';
 
-@Controller()
+@Controller('/user-tokens')
 export class UserTokensController {
   constructor(private readonly userTokensService: UserTokensService) {}
 
-  @Get('/user-tokens')
-  async getUserTokens(): Promise<UserTokens[]> {
-    return await this.userTokensService.getUserTokens();
+  @Get()
+  async getUserTokens(@Res() res: Response) {
+    try {
+      const userTokens: UserTokens[] = await this.userTokensService.getUserTokens();
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': userTokens,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+
+      console.error(`Get User Tokens Error: ${e}`);
+    }
   }
 
-  @Post('/user-tokens')
-  async newUserTokens(@Body() body: UserTokens[]): Promise<UserTokens[]> {
-    return await this.userTokensService.newUserTokens(body);
+  @Post()
+  async newUserTokens(@Body() body: UserTokens[], @Res() res: Response) {
+    try {
+      const newUserTokens: UserTokens[] = await this.userTokensService.getUserTokens();
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': newUserTokens,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+
+      console.error(`New User Tokens Error: ${e}`);
+    }
   }
 
-  @Put('/user-tokens')
-  async updateUserTokens(@Body() body: UserTokens[]): Promise<UserTokens[]> {
-    return await this.userTokensService.updateUserTokens(body);
+  @Put()
+  async updateUserTokens(@Body() body: UserTokens[], @Res() res: Response) {
+    try {
+      const updatedUserTokens: UserTokens[] = await this.userTokensService.newUserTokens(body);
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': updatedUserTokens,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+
+      console.error(`Update User Tokens Error: ${e}`);
+    }
   }
 
-  @Delete('/user-tokens')
-  async deleteUserTokens(@Body() body: UserTokens[]): Promise<number[]> {
-    return await this.userTokensService.deleteUserTokens(body);
+  @Delete()
+  async deleteUserTokens(@Body() body: UserTokens[], @Res() res: Response) {
+    try {
+      const deletedRowsCount: number[] = await this.userTokensService.deleteUserTokens(body);
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': `Affected Rows Count: ${deletedRowsCount.reduce((acc: number = 0, cur: number) => acc + cur)}`,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+      
+      console.error(`Delete User Tokens Error: ${e}`);
+    }
   }
 }
 
