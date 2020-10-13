@@ -1,29 +1,94 @@
-import { Body, Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Post, Put, Res } from '@nestjs/common';
 import { UserPlaylistsService } from '@service';
 import { UserPlaylists } from '@model';
+import { Response } from 'express';
 
-@Controller()
+@Controller('/user-playlists')
 export class UserPlaylistsController {
   constructor(private readonly userPlaylistsService: UserPlaylistsService) {}
 
-  @Get('/user-playlists')
-  async getUserPlaylists(): Promise<UserPlaylists[]> {
-    return await this.userPlaylistsService.getUserPlaylists();
+  @Get()
+  async getUserPlaylists(@Res() res: Response) {
+    try {
+      const userPlaylists: UserPlaylists[] = await this.userPlaylistsService.getUserPlaylists();
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': userPlaylists,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+
+      console.error(`Get User Playlists Error: ${e}`);
+    }
   }
 
-  @Post('/user-playlists')
-  async newUserPlaylists(@Body() body: UserPlaylists[]): Promise<UserPlaylists[]> {
-    return await this.userPlaylistsService.newUserPlaylists(body);
+  @Post()
+  async newUserPlaylists(@Body() body: UserPlaylists[], @Res() res: Response) {
+    try {
+      const newUserPlaylists: UserPlaylists[] = await this.userPlaylistsService.newUserPlaylists(body);
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': newUserPlaylists,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+
+      console.error(`New User Playlists Error: ${e}`);
+    }
   }
 
-  @Put('/user-playlists')
-  async updateUserPlaylists(@Body() body: UserPlaylists[]): Promise<UserPlaylists[]> {
-    return await this.userPlaylistsService.updateUserPlaylists(body);
+  @Put()
+  async updateUserPlaylists(@Body() body: UserPlaylists[], @Res() res: Response) {
+    try {
+      const updatedUserPlaylists: UserPlaylists[] = await this.userPlaylistsService.updateUserPlaylists(body);
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': updatedUserPlaylists,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+
+      console.error(`Update User Playlists Error: ${e}`);
+    }
   }
 
-  @Delete('/user-playlists')
-  async deleteUserPlaylists(@Body() body: UserPlaylists[]): Promise<number[]> {
-    return await this.userPlaylistsService.deleteUserPlaylists(body);
+  @Delete()
+  async deleteUserPlaylists(@Body() body: UserPlaylists[], @Res() res: Response) {
+    try {
+      const deletedRowsCount: number[] = await this.userPlaylistsService.deleteUserPlaylists(body);
+
+      res.status(HttpStatus.OK).json({
+        'ok': true,
+        'data': `Affected rows count: ${deletedRowsCount.reduce((acc: number = 0, cur: number) => acc + cur)}`,
+        'error': null,
+      });
+    } catch(e) {
+      res.status(HttpStatus.BAD_REQUEST).json({
+        'ok': false,
+        'data': null,
+        'error': e,
+      });
+
+      console.error(`Delete User Playlists Error: ${e}`);
+    }
   }
 }
 
