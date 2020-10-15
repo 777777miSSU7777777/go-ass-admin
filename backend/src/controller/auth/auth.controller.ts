@@ -48,7 +48,7 @@ export class AuthController {
     }
   }
 
-  @Delete('/signout')
+  @Post('/signout')
   async signOut(@Body() body: { token: string }, @Res() res: Response) {
     try {
         await this.authService.signOut(body.token);
