@@ -10,8 +10,8 @@ interface Props {}
 const App = (props: Props) => {
   return (
     <div className={styles.app}>
-      <Header />
       <BrowserRouter>
+        <Header />
         <Switch>
           <Route path='/auth/signin' component={SignInPage}/>
           <ProtectedRoute path='/admin' component={AdminWorkspace}/>

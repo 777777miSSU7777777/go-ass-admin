@@ -81,7 +81,7 @@ export const signOut = (token: string) => async(dispatch: Dispatch) => {
     dispatch(signOutInProgress());
 
     try {
-        const _ = await AuthAPI.refreshToken(token);
+        const _ = await AuthAPI.signOut(token);
 
         localStorage.setItem(LocalStorageKeys.accessToken, '');
         localStorage.setItem(LocalStorageKeys.refreshToken, '');
