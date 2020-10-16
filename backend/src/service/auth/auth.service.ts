@@ -17,14 +17,12 @@ export class AuthService {
             const accessToken: string = jwt.sign({
                 'userId': user.userId,
                 'role': user.role,
-                'exp': Date.now() + TokensDuration.access,
-            }, SECRET_KEY);
+            }, SECRET_KEY, { expiresIn: TokensDuration.access });
 
             const refreshToken: string = jwt.sign({
                 'userId': user.userId,
                 'role': user.role,
-                'exp': Date.now() + TokensDuration.refresh,
-            }, SECRET_KEY);
+            }, SECRET_KEY, { expiresIn: TokensDuration.refresh });
 
             await UserTokens.query().insert({ userId: user.userId, token: refreshToken });
 
@@ -43,14 +41,12 @@ export class AuthService {
             const accessToken: string = jwt.sign({
                 'userId': userId,
                 'role': role,
-                'exp': Date.now() + TokensDuration.access,
-            }, SECRET_KEY);
+            }, SECRET_KEY, { expiresIn: TokensDuration.access });
 
             const refreshToken: string = jwt.sign({
                 'userId': userId,
                 'role': role,
-                'exp': Date.now() + TokensDuration.refresh,
-            }, SECRET_KEY);
+            }, SECRET_KEY, { expiresIn: TokensDuration.refresh });
 
             await UserTokens.query().update({ userId: userId, token: refreshToken });
 

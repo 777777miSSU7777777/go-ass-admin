@@ -1,6 +1,6 @@
 export enum TokensDuration {
-    access = 1800,
-    refresh = 518400,
+    access = "20m",
+    refresh = "60d",
 }
 
 export enum TokenTypes {
