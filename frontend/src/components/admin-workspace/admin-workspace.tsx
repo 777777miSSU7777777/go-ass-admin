@@ -1,8 +1,8 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Redirect, Route, Switch, useRouteMatch } from 'react-router-dom';
 import AdminHeader from './admin-header/admin-header';
 import styles from './admin-workspace.module.scss';
-import DBTables from './db-tables/db-tables';
+import DBTables from './data-tables/data-tables';
 
 interface Props {}
 
@@ -12,7 +12,8 @@ const AdminWorkspace = (props: Props) => {
         <div className={styles.adminWorkspace}>
             <AdminHeader />
             <div className={styles.workspaceWrapper}>
-                <Route path={`${url}/db-tables`} component={DBTables}/>
+                <Route path={`${url}/data-tables`} component={DBTables}/>
+                <Redirect from={url} to={`${url}/data-tables`} />
             </div>
         </div>
     )
