@@ -1,10 +1,10 @@
 import { JWTMiddleware } from '@middleware';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
-import { DataModule } from './data/data.module';
+import { TableDataModule } from './table-data/table-data.module';
 
 @Module({
-  imports: [DataModule, AuthModule],
+  imports: [TableDataModule, AuthModule],
   controllers: [],
   providers: [],
 })

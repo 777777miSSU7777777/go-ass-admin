@@ -8,3 +8,4 @@ export * from './user-playlists';
 export * from './user-tokens';
 export * from './user-tracks';
 export * from './user';
+export * from './table-data';

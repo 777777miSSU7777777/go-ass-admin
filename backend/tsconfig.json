@@ -14,6 +14,7 @@
     "paths": {
       "@app/*": ["./src/*"],
       "@model": ["./src/db/model"],
+      "@enums": ["./src/enums"],
       "@helper": ["./src/helper"],
       "@service": ["./src/service"],
       "@middleware": ["./src/middleware"],
