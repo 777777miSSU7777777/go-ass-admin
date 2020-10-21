@@ -5,12 +5,11 @@ import styles from './admin-header.module.scss';
 interface Props {}
 
 const AdminHeader = (props: Props) => {
-    const { path, url } = useRouteMatch();
+    const { url } = useRouteMatch();
 
-    console.log('adminheader', `${url}/db-tables`);
     return (
      <div className={styles.adminHeader}>
-        <Link to={`${url}/db-tables`} className={styles.link}>DB Tables</Link>
+        <Link to={`${url}/table-editor`} className={styles.link}>Table Data Editor</Link>
      </div>
  )   
 }
