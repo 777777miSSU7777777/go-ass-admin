@@ -11,7 +11,7 @@ export interface TableDataState {
 }
 
 const initialState: TableDataState = {
-    selectedTable: null,
+    selectedTable: DataTables.track,
     data: [],
     isFetchingInProgress: false,
     isSavingInProgress: false,
