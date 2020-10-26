@@ -4,11 +4,9 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from './root-reducer';
 import history from './browserhistory';
 
-export default () => {
-    const middlewares = [routerMiddleware(history), thunkMiddleware];
-    const middlewareEnchancer = applyMiddleware(...middlewares);
+const middlewares = [routerMiddleware(history), thunkMiddleware];
+const middlewareEnchancer = applyMiddleware(...middlewares);
 
-    const store = createStore(rootReducer, middlewareEnchancer);
+const store = createStore(rootReducer, middlewareEnchancer);
 
-    return store;
-}
+export default store;

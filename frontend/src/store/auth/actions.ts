@@ -87,6 +87,8 @@ export const signOut = (token: string) => async(dispatch: Dispatch) => {
         localStorage.setItem(LocalStorageKeys.refreshToken, '');
         dispatch(signOutSuccess());
     } catch(e) {
+        localStorage.setItem(LocalStorageKeys.accessToken, '');
+        localStorage.setItem(LocalStorageKeys.refreshToken, '');
         dispatch(signOutFailure());
 
         console.error(`Sign Out Erorr: ${e}`);

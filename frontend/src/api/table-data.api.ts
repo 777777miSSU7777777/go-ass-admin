@@ -1,6 +1,9 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { LocalStorageKeys, DataActions } from '../enums';
 import { TableData } from '../model/db';
+import { AuthAPI } from './auth.api';
+import store from '../store/store';
+import { REFRESH_TOKEN_FAILURE, REFRESH_TOKEN_IN_PROGRESS, REFRESH_TOKEN_SUCCESS } from '../store/auth/action-types';
 
 const tableDataInstance = axios.create({
     baseURL: `http://127.0.0.1:3000/data`,
@@ -9,14 +12,51 @@ const tableDataInstance = axios.create({
     }
 });
 
-tableDataInstance.interceptors.request.use((req: AxiosRequestConfig) => {
-    req.headers = {
-        ...req.headers,
-        'Authorization': localStorage.getItem(LocalStorageKeys.accessToken),
-    };
+const TOKEN_EXPIRED_STATUS_CODE = 403;
 
+tableDataInstance.interceptors.request.use((req: AxiosRequestConfig) => {
+    req.headers['Authorization'] = localStorage.getItem(LocalStorageKeys.accessToken);
     return req;
-})
+});
+
+tableDataInstance.interceptors.response.use((res: AxiosResponse) => res, (err: AxiosError) => {
+    const status = err.response ? err.response.status : null
+
+    if (status) {
+        if (status === TOKEN_EXPIRED_STATUS_CODE) {
+            const token: string = localStorage.getItem(LocalStorageKeys.refreshToken) || '';
+            store.dispatch({
+                type: REFRESH_TOKEN_IN_PROGRESS,
+            });
+
+            return AuthAPI.refreshToken(token)
+                .then(data => {
+                    const { accessToken, refreshToken } = data;
+
+                    localStorage.setItem(LocalStorageKeys.accessToken, accessToken);
+                    localStorage.setItem(LocalStorageKeys.refreshToken, refreshToken);
+                    store.dispatch({
+                        type: REFRESH_TOKEN_SUCCESS,
+                        accessToken,
+                        refreshToken,
+                    });
+                    
+                    return tableDataInstance(err.config);
+                })
+                .catch(err => {
+                    store.dispatch({
+                        type: REFRESH_TOKEN_FAILURE,
+                    });
+                    localStorage.setItem(LocalStorageKeys.accessToken, '');
+                    localStorage.setItem(LocalStorageKeys.refreshToken, '');
+
+                    return Promise.reject(err);
+                });
+        }
+    }
+
+    return Promise.reject(err);
+});
 
 export const TableDataAPI = {
     getData(dataRoute: string) {
