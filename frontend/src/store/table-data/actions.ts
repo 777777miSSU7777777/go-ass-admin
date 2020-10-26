@@ -55,9 +55,9 @@ export const saveTableData = (dataRoute: string, newData: TableData[], updatedDa
     try {
         await Promise.all(
             [
-                TableDataAPI.newData(dataRoute, newData),
-                TableDataAPI.updateData(dataRoute, updatedData),
-                TableDataAPI.deleteData(dataRoute, deletedData)
+                newData.length > 0 ? TableDataAPI.newData(dataRoute, newData) : null,
+                updatedData.length > 0 ? TableDataAPI.updateData(dataRoute, updatedData) : null,
+                deletedData.length > 0 ? TableDataAPI.deleteData(dataRoute, deletedData) : null
             ]
         )
 
