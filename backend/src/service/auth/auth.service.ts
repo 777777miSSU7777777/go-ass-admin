@@ -48,7 +48,7 @@ export class AuthService {
                 'role': role,
             }, SECRET_KEY, { expiresIn: TokensDuration.refresh });
 
-            await UserTokens.query().update({ userId: userId, token: refreshToken });
+            await UserTokens.query().whereComposite(['user_id', 'token'], [userId, token]).update({ userId: userId, token: refreshToken });
 
             return { accessToken, refreshToken };
         } else {

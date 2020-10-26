@@ -2,6 +2,7 @@ import { HttpStatus, Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 import { SECRET_KEY, UserRoles } from '@helper';
+import { JWTErrorsNames } from '@app/enums';
 
 @Injectable()
 export class JWTMiddleware implements NestMiddleware {
@@ -17,7 +18,19 @@ export class JWTMiddleware implements NestMiddleware {
             
             next();
         } catch(e) {
-            res.status(HttpStatus.UNAUTHORIZED).json({
+            let errStatus: number;
+            switch(e.name) {
+                case JWTErrorsNames.jsonWebTokenError:
+                    errStatus = HttpStatus.UNAUTHORIZED;
+                    break;
+                case JWTErrorsNames.tokenExpiredError:
+                    errStatus = HttpStatus.FORBIDDEN;
+                    break;
+                default:
+                    errStatus = HttpStatus.BAD_REQUEST;
+            }
+
+            res.status(errStatus).json({
                 'ok': false,
                 'data': null,
                 'error': e,

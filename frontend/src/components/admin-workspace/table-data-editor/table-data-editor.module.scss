@@ -1,8 +1,10 @@
 .tableDataEditor {
+    width: 100%;
     & .dataTable {
         border: 2px solid #777;
         padding: 10px;
         position: sticky;
+        width: 100%;
 
         & .fieldHeader {
             border: 2px solid #777;
@@ -12,6 +14,7 @@
         & .fieldCell {
             border: 2px solid #777;
             padding: 5px 10px;
+            width: 90%;
 
             &:focus {
                 outline-width: 0;
