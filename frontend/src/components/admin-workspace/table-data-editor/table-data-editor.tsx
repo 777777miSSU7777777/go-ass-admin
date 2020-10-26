@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { DataTables } from '../../../enums/data-tables';
 import { getDataRouteForTable, getTableDataFields, getTableName } from '../../../helper/table-data.helper';
+import { TableData } from '../../../model/db';
 import { AppState } from '../../../store/root-reducer';
-import { fetchTableData, selectDataTable } from '../../../store/table-data/actions';
+import { fetchTableData, saveTableData, selectDataTable } from '../../../store/table-data/actions';
 import styles from './table-data-editor.module.scss';
 
 interface Props {}
@@ -30,6 +31,15 @@ const TableDataEdtior = (props: Props) => {
         dispatch(selectDataTable(e.target.value as DataTables));
     }
 
+    const onRowAdd = () => {
+        let newRow = { isNew: true };
+        tableHeaders!.obj.forEach((key: string) => {
+            newRow = { ...newRow, [key]: '' };
+        });
+
+        setTableData([...tableData, newRow]);
+    }
+
     const onCellChange = (index: number, key: string) => (e: any) => {
         const value = e.target.value;
         const updatedData = tableData.map((v, i) => {
@@ -47,33 +57,41 @@ const TableDataEdtior = (props: Props) => {
         setTableData(updatedData);
     }
 
-    const getNewData = () => {
-        const deletedData = tableData.filter((newObj: any) => !(dataFromStore as any).find((oldObj: any) => {
-            return tableHeaders!.pk.every(key => newObj[key] === oldObj[key]);
-        }))
-
-        return deletedData;
-    }
-
-    const getUpdatedData = () => {
-        const updatedData = tableData.filter(v => v.isChanged);
-        return updatedData;
-    }
-
-    const getDeletedData = () => {
-        const newData = (dataFromStore as any).filter((oldObj: any) => !tableData.find((newObj: any) => {
-            return tableHeaders!.pk.every(key => oldObj[key] === newObj[key]);
-        }))
-
-        return newData;
-    }
-
-
     const onSave = () => {
-        const newData = getNewData();
-        const updatedData = getUpdatedData();
-        const deletedData = getDeletedData();
-        console.log(newData, updatedData, deletedData);
+        let newData = tableData.filter((newObj: any) => !(dataFromStore as any).find((oldObj: any) => {
+            return tableHeaders!.pk.every(key => newObj[key] === oldObj[key]);
+        }));
+        newData = newData.map((v: TableData) => {
+            const { isChanged, isNew, ...pure } = v;
+            return pure;
+        })
+
+        let updatedData = tableData.filter(v => v.isChanged && !v.isNew);
+        updatedData = updatedData.map((v: TableData) => {
+            const { isChanged, isNew, ...pure } = v;
+            return pure;
+        })
+        
+        let deletedData = (dataFromStore as any).filter((oldObj: any) => !tableData.find((newObj: any) => {
+            return tableHeaders!.pk.every(key => oldObj[key] === newObj[key]);
+        }));
+        deletedData = deletedData.map((v: TableData) => {
+            const { isChanged, isNew, ...pure } = v;
+            return pure;
+        })
+
+        if (selectedTable) {
+            dispatch(saveTableData(
+                getDataRouteForTable(selectedTable),
+                newData,
+                updatedData,
+                deletedData,
+            ));
+        }
+    }
+
+    const onCancel = () => {
+        setTableData(dataFromStore);
     }
 
     useEffect(() => {
@@ -134,7 +152,9 @@ const TableDataEdtior = (props: Props) => {
                     </tbody>
                     </table>)
             }
+            <button onClick={onRowAdd}>Add</button>
             <button onClick={onSave}>Save</button>
+            <button onClick={onCancel}>Cancel</button>
         </div>
     )
 }

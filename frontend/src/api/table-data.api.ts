@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { LocalStorageKeys } from '../enums';
+import { LocalStorageKeys, DataActions } from '../enums';
 import { TableData } from '../model/db';
 
 const tableDataInstance = axios.create({
@@ -20,18 +20,18 @@ tableDataInstance.interceptors.request.use((req: AxiosRequestConfig) => {
 
 export const TableDataAPI = {
     getData(dataRoute: string) {
-        return tableDataInstance.get(`${dataRoute}`).then(res => res.data);
+        return tableDataInstance.post(`${dataRoute}?action=${DataActions.get}`).then(res => res.data);
     },
 
     newData(dataRoute: string, data: TableData[]) {
-        return tableDataInstance.post(`${dataRoute}`, data).then(res => res.data);
+        return tableDataInstance.post(`${dataRoute}?action=${DataActions.create}`, data).then(res => res.data);
     },
 
     updateData(dataRoute: string, data: TableData[]) {
-        return tableDataInstance.put(`${dataRoute}`, data).then(res => res.data);
+        return tableDataInstance.post(`${dataRoute}?action=${DataActions.update}`, data).then(res => res.data);
     },
 
     deleteData(dataRoute: string, data: TableData[]) {
-        return tableDataInstance.delete(`${dataRoute}`, { data }).then(res => res.data);
+        return tableDataInstance.post(`${dataRoute}?action=${DataActions.delete}`, data).then(res => res.data);
     }
 }
