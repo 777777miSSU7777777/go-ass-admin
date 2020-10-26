@@ -12,12 +12,14 @@ export class AuthController {
         const tokens: { accessToken: string, refreshToken: string } = await this.authService.signIn(body.email, body.password);
 
         res.status(HttpStatus.OK).json({
+            'statusCode': HttpStatus.OK,
             'ok': true,
             'data': tokens,
             'error': null,
         });
     } catch(e) {
         res.status(HttpStatus.BAD_REQUEST).json({
+            'statusCode': HttpStatus.BAD_REQUEST,
             'ok': false,
             'data': null,
             'error': e,
@@ -33,12 +35,14 @@ export class AuthController {
         const tokens: { accessToken: string, refreshToken: string } = await this.authService.refreshToken(body.token);
 
         res.status(HttpStatus.OK).json({
+            'statusCode': HttpStatus.OK,
             'ok': true,
             'data': tokens,
             'error': null,
         });
     } catch(e) {
         res.status(HttpStatus.BAD_REQUEST).json({
+            'statusCode': HttpStatus.BAD_REQUEST,
             'ok': false,
             'data': null,
             'error': e,
@@ -54,12 +58,14 @@ export class AuthController {
         await this.authService.signOut(body.token);
 
         res.status(HttpStatus.OK).json({
+            'statusCode': HttpStatus.OK,
             'ok': true,
             'data': null,
             'error': null,
         });
     } catch(e) {
         res.status(HttpStatus.BAD_REQUEST).json({
+            'statusCode': HttpStatus.BAD_REQUEST,
             'ok': false,
             'data': null,
             'error': e,

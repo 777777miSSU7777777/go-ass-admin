@@ -29,6 +29,7 @@ export class TableDataController {
           const deletedRowsCount: number[] = await this.tableDataService.deleteTableData(dataRoute, body);
           const affectedRowsCount: number = deletedRowsCount.length > 0 ? deletedRowsCount.reduce((acc: number = 0, cur: number) => acc + cur) : 0;
           res.status(HttpStatus.OK).json({
+            'statusCode': HttpStatus.OK,
             'ok': true,
             'data': `Affected rows count: ${affectedRowsCount}`,
             'error': null,
@@ -39,12 +40,14 @@ export class TableDataController {
       }
 
       res.status(HttpStatus.OK).json({
+        'statusCode': HttpStatus.OK,
         'ok': true,
         'data': tableData,
         'error': null,
       });
     } catch (e) {
       res.status(HttpStatus.BAD_REQUEST).json({
+        'statusCode': HttpStatus.BAD_REQUEST,
         'ok': false,
         'data': null,
         'error': e,

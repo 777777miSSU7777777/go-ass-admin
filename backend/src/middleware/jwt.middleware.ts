@@ -31,6 +31,7 @@ export class JWTMiddleware implements NestMiddleware {
             }
 
             res.status(errStatus).json({
+                'statusCode': errStatus,
                 'ok': false,
                 'data': null,
                 'error': e,
