@@ -48,13 +48,10 @@ export class AuthService {
                 'role': role,
             }, SECRET_KEY, { expiresIn: TokensDuration.refresh });
 
-            const userToken = await UserTokens.query().whereComposite(['user_id', 'token'], [userId, token]).first();
-            
-            if (userToken) {
-                userToken.$query().update({ userId: userId, token: refreshToken })
-            } else {
-                throw new Error('User token is not found');
-            }
+            await UserTokens.query()
+                .findOne({ user_id: userId, token: token })
+                .update({ userId: userId, token: refreshToken })
+                .throwIfNotFound(new Error('User Token is not found'));
 
             return { accessToken, refreshToken };
         } else {
