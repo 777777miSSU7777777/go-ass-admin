@@ -1,24 +1,69 @@
 .tableDataEditor {
     width: 100%;
     & .dataTable {
-        border: 2px solid #777;
-        padding: 10px;
-        position: sticky;
+        border: 1px solid #777;
         width: 100%;
 
-        & .fieldHeader {
-            border: 2px solid #777;
-            padding: 5px 10px;
+        & .tableHeader {
+            display: flex;
+
+            & .fieldHeader {
+                border: 1px solid #777;
+                padding: 5px 10px;
+                width: 100%;
+            }
+
+            & .deleteHeader {
+                min-width: 60px;
+                max-width: 60px;
+                border: 1px solid #777;
+            }
         }
 
-        & .fieldCell {
-            border: 2px solid #777;
-            padding: 5px 10px;
-            width: 90%;
+        & .tableBody {
+            display: flex;
+            flex-direction: column;
 
-            &:focus {
-                outline-width: 0;
+            & .tableRow {
+                display: flex;
+                width: 100%;
+
+                & .tableCell {
+                    width: 100%;
+                    display: flex;
+
+                    & .fieldCell {
+                        border: 1px solid #777;
+                        padding: 5px 10px;
+                        width: 100%;
+            
+                        &:focus {
+                            outline-width: 0;
+                        }
+                    }
+                }
+
+                & .deleteCell {
+                    min-width: 60px;
+                    max-width: 60px;
+                    border: 1px solid #777;
+
+                    & .deleteButton {
+                        height: 100%;
+                        width: 100%;
+                        background-color: #fff;
+                        cursor: pointer;
+                        border: 0;
+                        outline: 0;
+
+                        &:hover {
+                            background-color: #000;
+                            color: #fff;
+                        }
+                    }
+                }
             }
+
         }
     }
 }

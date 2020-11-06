@@ -121,36 +121,30 @@ const TableDataEdtior = (props: Props) => {
             </select>
             {
                 selectedTable && tableHeaders && 
-                (<table className={styles.dataTable}>
-                    <thead >
-                        <tr className={styles.tableHeader}>
-                            {tableHeaders.db.map(v => <th className={styles.fieldHeader}>{v.toUpperCase()}</th>)}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {tableData.map((dataRow, i) => {
-                            return (
-                                <tr>
-                                    {tableHeaders.obj.map(field => {
-                                        return (
-                                            <td>
-                                                <input
-                                                    className={styles.fieldCell}
-                                                    value={dataRow[field]}
-                                                    onChange={onCellChange(i, field)}
-                                                    disabled={tableHeaders.pk.includes(field)}
-                                                />
-                                            </td>
-                                        )
-                                    })}
-                                    <td>
-                                        <button onClick={onRowDelete(i)}>Delete</button>
-                                    </td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                    </table>)
+                (
+                    <div className={styles.dataTable}>
+                        <div className={styles.tableHeader}>
+                            {tableHeaders.db.map(v => <div className={styles.fieldHeader}>{v.toUpperCase()}</div>)}
+                            <div className={styles.deleteHeader}></div>
+                        </div>
+                        <div className={styles.tableBody}>
+                            {tableData.map((row, index) => {
+                                return (
+                                    <div className={styles.tableRow}>
+                                        {tableHeaders.obj.map(field => {
+                                            return (
+                                                <div className={styles.tableCell}>
+                                                    <input className={styles.fieldCell} value={row[field]} onChange={onCellChange(index, field)} disabled={tableHeaders.pk.includes(field)}></input>
+                                                </div>
+                                            )
+                                        })}
+                                        <div className={styles.deleteCell}><button className={styles.deleteButton} onClick={onRowDelete(index)}>Delete</button></div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )
             }
             <button onClick={onRowAdd}>Add</button>
             <button onClick={onSave}>Save</button>
